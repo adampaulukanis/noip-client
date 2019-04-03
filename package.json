@@ -12,5 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "standard": "^12.0.1"
+  },
+  "dependencies": {
+    "public-ip": "^3.0.0"
   }
 }
