@@ -6,7 +6,12 @@ const config = require('./config')
 const http = require('http')
 const fs = require('fs')
 
-const isItIPv4RegExp = /\d.\d.\d.\d/
+function isItIPv4 (pretender) {
+  let match = pretender.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/)
+  return match != null &&
+    match[1] <= 255 && match[2] <= 255 &&
+    match[3] <= 255 && match[3] <= 255
+}
 
 http.get(config.url, (res) => {
   const { statusCode } = res
@@ -24,13 +29,14 @@ http.get(config.url, (res) => {
     res.on('data', (chunk) => { rawData += chunk })
     res.on('end', () => {
       console.log(`Your external IP is ${rawData}`)
-      if (isItIPv4RegExp.test(rawData)) {
+      if (isItIPv4(rawData)) {
         // Test if current and last IP's are the same
         if (rawData !== config.lastKnownIP) {
           // Update noip
           console.log('updating noip...')
           // Write to the file
-          fs.writeFileSync('./config.json', JSON.stringify(config))
+          // fs.writeFileSync('./config.json', JSON.stringify(config))
+          console.log('Writing you new IP to config.json')
         } else {
           // you have to do nothing
         }
