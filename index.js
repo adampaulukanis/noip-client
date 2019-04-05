@@ -2,6 +2,18 @@
 
 'use strict'
 
+/*
+ * 1. Check current IP
+ *  - write it to config.json under currentIP
+ * 2. Update noip
+ *  - if (currentIP !== previousIP)
+ *      - update noip
+ *      - write IP to config.json under previousIP
+ *    else
+ *      - do nothing
+ * 3. exit
+ */
+
 const config = require('./config')
 const http = require('http')
 const fs = require('fs')
