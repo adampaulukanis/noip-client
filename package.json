@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "pretest": "./node_modules/standard/bin/cmd.js",
-    "test": "node test.js",
-    "start": "node index.js"
+    "test": "echo 0",
+    "start": "node index.js",
+    "updateIP": "./bin/updateIP.sh"
   },
   "author": "Adam Paulukanis",
   "license": "ISC",

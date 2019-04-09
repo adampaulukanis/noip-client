@@ -15,3 +15,11 @@ There are a few methods of doing it
 ## Instalation
 
 Git clone the repo, npm install, cp config.json.example config.json and edit this file.
+
+## Documentation
+
+(here)[https://www.noip.com/integrate/request]
+
+## How To Use
+
+`npm run updateIP`
