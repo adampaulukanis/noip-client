@@ -1,6 +1,7 @@
 {
   "username": "user123",
   "password" : "password123",
-  "url": "http://ipecho.net/plain",
-  "lastKnownIP": ""
+  "User-Agent" "Client Name/version em@il",
+  "host": "dynupdate.no-ip.com",
+  "path": "/nic/update?hostname=HOSTNAME&myip=92.22.144.175"
 }

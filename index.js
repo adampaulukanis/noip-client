@@ -3,14 +3,15 @@
 // https://www.noip.com/integrate/request
 
 const http = require('http')
+const config = require('./config.json')
 
 const options = {
-  auth: 'adam.paulukanis@gmail.com:xfilez123',
+  auth: `${config.username}:${config.password}`,
   headers: {
-    'User-Agent': 'Adams Update Client OpenBSD/1.0 adam.paulukanis@gmail.com'
+    'User-Agent': `${config['User-Agent']}`
   },
-  host: 'dynupdate.no-ip.com',
-  path: '/nic/update?hostname=jesiotry.ddns.net&myip=92.22.144.175'
+  host: `${config.host}`,
+  path: `${config.path}`
 }
 
 /**

@@ -20,6 +20,18 @@ Git clone the repo, npm install, cp config.json.example config.json and edit thi
 
 (here)[https://www.noip.com/integrate/request]
 
+## Important
+
+You need to know:
+- your user name and password
+- the hostname (edit *HOSTNAME*)
+
+```
+cp config.json.example config.json
+$EDITOR config.json
+# amend the file$
+```
+
 ## How To Use
 
 `npm run updateIP`
