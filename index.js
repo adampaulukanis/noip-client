@@ -4,6 +4,7 @@
 
 const http = require('http')
 const config = require('./config.json')
+const version = require('./package.json').version
 
 const options = {
   auth: `${config.username}:${config.password}`,
@@ -13,6 +14,7 @@ const options = {
   host: `${config.host}`,
   path: `${config.path}`
 }
+options.headers['User-Agent'] = options.headers['User-Agent'].replace('VERSION', version)
 
 /**
  * Checks if the input string looks like correct IPv4
