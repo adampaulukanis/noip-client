@@ -1,7 +1,7 @@
 {
   "name": "noip-client",
-  "version": "1.0.1",
-  "description": "Update my external IP",
+  "version": "1.0.2",
+  "description": "myNO-IP Update Client",
   "main": "index.js",
   "scripts": {
     "pretest": "./node_modules/standard/bin/cmd.js",
@@ -9,12 +9,19 @@
     "start": "node index.js",
     "updateIP": "./bin/updateIP.sh"
   },
-  "author": "Adam Paulukanis",
+  "author": {
+    "name": "Adam Paulukanis",
+    "email": "adam.paulukanis@gmail.com"
+  },
   "license": "ISC",
   "devDependencies": {
     "standard": "^12.0.1"
   },
   "dependencies": {
     "public-ip": "^3.0.0"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/adam17/noip-client.git"
   }
 }
