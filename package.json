@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "./node_modules/standard/bin/cmd.js",
-    "test": "echo 0",
+    "test": "node tests/test.*.js",
     "start": "node index.js",
     "updateIP": "./bin/updateIP.sh"
   },

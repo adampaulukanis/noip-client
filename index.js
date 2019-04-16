@@ -19,12 +19,7 @@ options.headers['User-Agent'] = options.headers['User-Agent'].replace('VERSION',
 /**
  * Checks if the input string looks like correct IPv4
  */
-function isItIPv4 (pretender = '') {
-  let match = pretender.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/)
-  return match != null &&
-    match[1] <= 255 && match[2] <= 255 &&
-    match[3] <= 255 && match[3] <= 255
-}
+const isItIPv4 = require('./lib/isItIPv4')
 
 // Replace IP with the current IP
 let newIP = '92.22.144.175'
