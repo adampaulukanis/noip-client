@@ -6,6 +6,11 @@ const http = require('http')
 const config = require('./config.json')
 const version = require('./package.json').version
 
+// SQLite part
+let sqlite3 = require('sqlite3').verbose()
+let db = new sqlite3.Database('my.db')
+db.run('CREATE TABLE IF NOT EXISTS responses (date TEXT, status TEXT)')
+
 const options = {
   auth: `${config.username}:${config.password}`,
   headers: {
@@ -42,6 +47,11 @@ http.get(options, (res) => {
   res.on('data', (chunk) => { rawData += chunk })
   res.on('end', () => {
     console.log(`NOIP response: ${rawData}`)
+    db.run('INSERT INTO responses (date, status) VALUES ($date, $status)', {
+      $date: new Date().toUTCString(),
+      $status: rawData
+    })
+    db.close()
   })
 }).on('error', (e) => {
   console.error(`Got error: ${e.message}`)

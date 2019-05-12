@@ -1,6 +1,8 @@
-node_modules
-*.swp
-config.json
-*.log
 *.*~
+*.db
+*.log
+*.swp
 .config
+config.json
+node_modules
+tags
