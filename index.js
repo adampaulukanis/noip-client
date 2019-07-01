@@ -2,24 +2,29 @@
 
 // https://www.noip.com/integrate/request
 
+/*
+ * My NoIP client
+ */
+
 const http = require('http')
-const config = require('./config.json')
 const version = require('./package.json').version
+
+require('dotenv').config()
 
 // SQLite part
 let sqlite3 = require('sqlite3').verbose()
 let db = new sqlite3.Database('my.db')
-db.run('CREATE TABLE IF NOT EXISTS responses (date TEXT, status TEXT)')
+db.run('CREATE TABLE IF NOT EXISTS responses (date TEXT, reqheader TEXT, status TEXT)')
 
 const options = {
-  auth: `${config.username}:${config.password}`,
+  auth: `${process.env.USERNAME}:${process.env.PASSWORD}`,
   headers: {
-    'User-Agent': `${config['User-Agent']}`
+    // version is hard-coded here; do I expect anyone else to run it besides me? Nee
+    'User-Agent': `Adams Update Client OpenBSD/${version} ${process.env.EMAIL}`
   },
-  host: `${config.host}`,
-  path: `${config.path}`
+  host: `dynupdate.no-ip.com`,
+  path: `/nic/update?hostname=${process.env.HOSTNAME}&myip=${process.env.IP}`
 }
-options.headers['User-Agent'] = options.headers['User-Agent'].replace('VERSION', version)
 
 /**
  * Checks if the input string looks like correct IPv4
@@ -27,11 +32,9 @@ options.headers['User-Agent'] = options.headers['User-Agent'].replace('VERSION',
 const isItIPv4 = require('./lib/isItIPv4')
 
 // Replace IP with the current IP
-let newIP = '92.22.144.175'
 if (isItIPv4(process.argv[2])) {
-  newIP = process.argv[2]
+  options.path = options.path.replace(process.env.IP, process.argv[2])
 }
-options.path = options.path.replace(/92.22.144.175/, newIP)
 
 http.get(options, (res) => {
   let error
@@ -47,8 +50,9 @@ http.get(options, (res) => {
   res.on('data', (chunk) => { rawData += chunk })
   res.on('end', () => {
     console.log(`NOIP response: ${rawData}`)
-    db.run('INSERT INTO responses (date, status) VALUES ($date, $status)', {
+    db.run('INSERT INTO responses (date, reqheader, status) VALUES ($date, $reqheader, $status)', {
       $date: new Date().toUTCString(),
+      $reqheader: JSON.stringify(options),
       $status: rawData
     })
     db.close()

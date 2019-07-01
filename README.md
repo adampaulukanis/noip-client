@@ -22,14 +22,9 @@ Git clone the repo, npm install, cp config.json.example config.json and edit thi
 
 ## Important
 
-You need to know:
-- your user name and password
-- the hostname (edit *HOSTNAME*)
-
 ```
-cp config.json.example config.json
-$EDITOR config.json
-# amend the file$
+cp .env-temp .env
+$EDITOR .env
 ```
 
 ## How To Use
