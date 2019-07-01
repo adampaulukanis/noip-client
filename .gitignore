@@ -3,6 +3,7 @@
 *.log
 *.swp
 .config
+.env
 config.json
 node_modules
 tags
