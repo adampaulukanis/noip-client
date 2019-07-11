@@ -47,3 +47,8 @@ HOME=/home/adam/noip-client
 27  */3   *   *   *   npm run updateIP 
 @reboot npm run updateIP
 ```
+
+## Confirmation of your host name via email
+
+Every once in a while I receive an email from *noip* saying **ACTION REQUIRED: $YOURHOSTNAME is Expiring Soon** and
+I need to click on *Confirm Hostname*. Do not neglect it!
