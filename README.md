@@ -52,3 +52,11 @@ HOME=/home/adam/noip-client
 
 Every once in a while I receive an email from *noip* saying **ACTION REQUIRED: $YOURHOSTNAME is Expiring Soon** and
 I need to click on *Confirm Hostname*. Do not neglect it!
+
+## Logs
+
+- If you see in your logs (in *my.db*) something like this *YOUR_IP_IF_YOU_WANT_TO_PROVIDE* it may and probably means you run
+this program simply with `node index`, where it should be ideally run like this `npm run updateIP`. This way the correct
+IP will be provided (hopefully) **OR** there is a problem with your network. Check the *error* bit.
+
+- The logged time is the UTC zone (JS function new Date().toUTCString()).

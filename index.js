@@ -26,6 +26,18 @@ const options = {
   path: `/nic/update?hostname=${process.env.HOSTNAME}&myip=${process.env.IP}`
 }
 
+var logRequest = function (error, data, resObject) {
+  resObject = resObject || {}
+  let myObject = {}
+  var fields = ['headers', 'statusCode', 'statusMessage']
+  fields.forEach(function (field) {
+    if (resObject.hasOwnProperty(field)) {
+      myObject[field] = resObject[field]
+    }
+  })
+  return JSON.stringify({ error: error, noipResponse: data, someRes: myObject })
+}
+
 /**
  * Checks if the input string looks like correct IPv4
  */
@@ -37,26 +49,34 @@ if (isItIPv4(process.argv[2])) {
 }
 
 http.get(options, (res) => {
-  let error
   if (res.statusCode !== 200) {
-    error = new Error(`Request failed. Status code ${res.statusCode}`)
+    if (res.StatusCode >= 500) {
+      console.error(new Error(`Request status code=${res.statusCode}`))
+    } else if (res.statusCode >= 400) {
+      console.warn(new Error(`Request status code=${res.statusCode}`))
+    }
     // Consume response data to free up memory
     res.resume()
-    return console.error(error.message)
   }
 
-  res.setEncoding('utf8')
   let rawData = ''
+  res.setEncoding('utf8')
   res.on('data', (chunk) => { rawData += chunk })
   res.on('end', () => {
     console.log(`NOIP response: ${rawData}`)
     db.run('INSERT INTO responses (date, reqheader, status) VALUES ($date, $reqheader, $status)', {
       $date: new Date().toUTCString(),
       $reqheader: JSON.stringify(options),
-      $status: rawData
+      $status: logRequest('no error', rawData, res)
     })
     db.close()
   })
 }).on('error', (e) => {
   console.error(`Got error: ${e.message}`)
+  db.run('INSERT INTO responses (date, reqheader, status) VALUES ($date, $reqheader, $status)', {
+    $date: new Date().toUTCString(),
+    $reqheader: JSON.stringify(options),
+    $status: logRequest(e, 'We got an error')
+  })
+  db.close()
 })
